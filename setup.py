@@ -16,4 +16,5 @@ setuptools.setup(
     license='See LICENSE.',
     url='https://github.com/jokull/ssstatic',
     scripts=['ssstatic'],
+    install_requires=['boto>=2.8'],
 )

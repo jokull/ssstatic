@@ -39,7 +39,10 @@ def main():
     try:
         media_root, bucket_root = sys.argv[1:]
     except ValueError:
-        sys.exit(u"Error. (Hint: python sync_s3.py public/ s3.bucket.com/static )")
+        sys.exit(u"Usage error. (Hint: ssstatic public/ s3.bucket.com/static )")
+
+    if not os.path.exists(media_root):
+        sys.exit(u"Error: Sync path does not exist")
 
     if '/' in bucket_root:
         bucket_name, prefix = bucket_root.split("/", 1)
@@ -64,7 +67,11 @@ def main():
 
     s3_root = s3_root.rstrip("/")  # Normalize
 
-    print "//s3.amazonaws.com/%s/%s/" % (bucket_name, s3_root)
+    print "//s3-{location}.amazonaws.com/{bucket}/{root}/".format(
+        location=bucket.get_location(),
+        bucket=bucket_name,
+        root=s3_root,
+    )
 
     for root, dirs, files in os.walk(media_root):
         for filename in files:
