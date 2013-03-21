@@ -29,7 +29,7 @@ Usage
 
 Dry run:
 
-    $ DRYRUN=true  public/ s3.domain.com/static
+    $ DRYRUN=true static/ my-bucket/static/
 
 Upload:
 
@@ -37,3 +37,13 @@ Upload:
     $ export AWS_SECRET_ACCESS_KEY ...
     $ ssstatic static/ my-bucket/static/
 
+Site Integration
+----------------
+
+I have a Makefile with this command to publish assets and update a Heroku config
+
+    upload:
+      heroku config:add STATIC_URL=`honcho run ssstatic app/static/ $(BUCKET)/web/`
+
+A protocol relative URL is the only stdout, so it can be used as a STATIC_URL in
+Django for example.
