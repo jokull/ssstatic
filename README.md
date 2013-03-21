@@ -22,18 +22,18 @@ Features
 Install
 -------
 
-  $ pip install ssstatic
+    $ pip install ssstatic
 
 Usage
 -----
 
 Dry run:
 
-  $ DRYRUN=true  public/ s3.domain.com/static
+    $ DRYRUN=true  public/ s3.domain.com/static
 
 Upload:
 
-  $ export AWS_ACCESS_KEY_ID ...
-  $ export AWS_SECRET_ACCESS_KEY ...
-  $ ssstatic static/ my-bucket/static/
+    $ export AWS_ACCESS_KEY_ID ...
+    $ export AWS_SECRET_ACCESS_KEY ...
+    $ ssstatic static/ my-bucket/static/
 
