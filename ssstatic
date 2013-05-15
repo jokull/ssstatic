@@ -9,6 +9,7 @@ import os
 import time
 import gzip
 import subprocess
+import argparse
 
 from cStringIO import StringIO
 
@@ -35,11 +36,7 @@ HEADERS = {
 }
 
 
-def main():
-    try:
-        media_root, bucket_root = sys.argv[1:]
-    except ValueError:
-        sys.exit(u"Usage error. (Hint: ssstatic public/ bucket-name/static )")
+def main(media_root, bucket_root, cachebuster=False):
 
     if not os.path.exists(media_root):
         sys.exit(u"Error: Sync path does not exist")
@@ -51,16 +48,19 @@ def main():
 
     bucket = s3.get_bucket(bucket_name)
 
-    media_root_md5, stderr = (subprocess.
-        Popen('tar c %s | md5' % media_root, stdout=subprocess.PIPE, shell=True).
-        communicate())
-    if stderr:
-        raise Exception(u'Could not get unique folder checksum')
+    if cachebuster:
+        media_root_md5, stderr = (subprocess.
+            Popen('tar c %s | md5' % media_root, stdout=subprocess.PIPE, shell=True).
+            communicate())
+        if stderr:
+            raise Exception(u'Could not get unique folder checksum')
 
-    target_root = os.path.join(
-        prefix,
-        media_root_md5[:6],  # Only use first 6 letters
-    )
+        target_root = os.path.join(
+            prefix,
+            media_root_md5[:6],  # Only use first 6 letters
+        )
+    else:
+        target_root = prefix
 
     if not media_root.endswith("/"):
         # We want to copy folder as a whole, not just contents - like rsync
@@ -121,6 +121,15 @@ def main():
 
 if __name__ == '__main__':
     try:
-        main()
+        parser = argparse.ArgumentParser(description='Upload folder to S3.')
+        parser.add_argument(
+            '-c', '--cachebuster', action='store_true',
+            help="Calculate unique checksum for source contents and upload "
+                 "under a unique folder path."
+        )
+        parser.add_argument('source', help="Path to source directory.")
+        parser.add_argument('destination', help="Bucket name and path. Ex: s3.python.org/static")
+        args = parser.parse_args()
+        main(args.source, args.destination, cachebuster=args.cachebuster)
     except KeyboardInterrupt:
         sys.exit(u"Early exit")
