@@ -1,0 +1,5 @@
+0.3
+---
+
++ Cachebusting is now optional. Opt-in with `-c` hook.
++ Moved to argparse for better `--help` message.
