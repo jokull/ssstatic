@@ -36,6 +36,17 @@ HEADERS = {
 }
 
 
+def stdout(bucket_name, target_root):
+    override_hostname = os.environ.get('STATIC_HOST')
+    if override_hostname is not None:
+        print "//{host}/{root}/".format(host=override_hostname, root=target_root)
+    else:
+        print "//{bucket}.s3.amazonaws.com/{root}/".format(
+            bucket=bucket_name,
+            root=target_root,
+        )
+
+
 def main(media_root, bucket_root, cachebuster=False):
 
     if not os.path.exists(media_root):
@@ -59,6 +70,7 @@ def main(media_root, bucket_root, cachebuster=False):
             prefix,
             media_root_md5[:6],  # Only use first 6 letters
         )
+
     else:
         target_root = prefix
 
@@ -67,15 +79,10 @@ def main(media_root, bucket_root, cachebuster=False):
         target_root = os.path.join(target_root, media_root)
 
     target_root = target_root.rstrip("/")  # Normalize
+    stdout(bucket_name, target_root)
 
-    override_hostname = os.environ.get('STATIC_HOST')
-    if override_hostname is not None:
-        print "//{host}/{root}/".format(host=override_hostname, root=target_root)
-    else:
-        print "//{bucket}.s3.amazonaws.com/{root}/".format(
-            bucket=bucket_name,
-            root=target_root,
-        )
+    if cachebuster and len(list(bucket.list(prefix=target_root))) > 0:
+        return  # No need to upload, this exists
 
     for root, dirs, files in os.walk(media_root):
         for filename in files:

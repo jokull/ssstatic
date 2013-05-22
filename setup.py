@@ -8,9 +8,9 @@ import setuptools
 
 
 setuptools.setup(
-    version='0.3',
+    version='0.4',
     name='ssstatic',
-    description='Push a folder of assets to S3 with guaranteed cache busting.',
+    description='Push a website assets to S3 with or without prefix cache busting.',
     author=u'Jökull Sólberg Auðunsson',
     author_email='jokull@solberg.is',
     license='See LICENSE.',

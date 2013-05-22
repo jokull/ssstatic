@@ -3,3 +3,8 @@
 
 + Cachebusting is now optional. Opt-in with `-c` hook.
 + Moved to argparse for better `--help` message.
+
+0.4
+---
+
++ Skip uploading if cachebusting prefix exists on S3.

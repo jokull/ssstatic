@@ -3,10 +3,6 @@ S3 Static
 
 Want an A grade on the Y!Slow test? Ship your website assets with this script!
 
-Calculates an MD5 checksum of the static assets and prefixes the S3 key with
-first 6 letters of the checksum. Guarantees that visitors to your site will
-receive the new version, but cache aggressively otherwise.
-
 Features
 --------
 
