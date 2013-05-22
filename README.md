@@ -33,6 +33,10 @@ Upload:
     $ export AWS_SECRET_ACCESS_KEY ...
     $ ssstatic static/ my-bucket/static/
 
+With cachebusting:
+
+    $ ssstatic -c static/ my-bucket/static/  # uploads to something like //my-bucket.s3.amazonaws.com/static/39fj3923/
+
 Site Integration
 ----------------
 
