@@ -15,6 +15,21 @@ from cStringIO import StringIO
 
 from boto.s3.connection import S3Connection
 
+
+class MD5ExecutableNotFound(Exception):
+    pass
+
+
+def which_md5():
+    system_paths = os.environ.get('PATH') or []
+    executables = ['md5', 'md5sum']
+    for path in system_paths.split(':'):
+        for md5 in executables:
+            if os.path.exists('{}/{}'.format(path, md5)):
+                return md5
+    raise MD5ExecutableNotFound
+
+
 s3 = S3Connection()
 
 GZIP_CONTENT_TYPES = (
@@ -61,7 +76,7 @@ def main(media_root, bucket_root, cachebuster=False):
 
     if cachebuster:
         media_root_md5, stderr = (subprocess.
-            Popen('tar c %s | md5' % media_root, stdout=subprocess.PIPE, shell=True).
+            Popen('tar c %s | %s' % (media_root, which_md5()), stdout=subprocess.PIPE, shell=True).
             communicate())
         if stderr:
             raise Exception(u'Could not get unique folder checksum')
