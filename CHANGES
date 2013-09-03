@@ -8,3 +8,8 @@
 ---
 
 + Skip uploading if cachebusting prefix exists on S3.
+
+0.6
+---
+
++ Package as a module so your deployment scripts can use `ssstatic.main`
