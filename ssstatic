@@ -62,7 +62,7 @@ def stdout(bucket_name, target_root):
         )
 
 
-def main(media_root, bucket_root, cachebuster=False):
+def main(media_root, bucket_root, cachebuster=False, stdout=stdout):
 
     if not os.path.exists(media_root):
         sys.exit(u"Error: Sync path does not exist")
