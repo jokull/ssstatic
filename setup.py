@@ -16,7 +16,7 @@ setup(
     license='See LICENSE.',
     url='https://github.com/jokull/ssstatic',
     packages=['ssstatic'],
-    entry_points = {
+    entry_points={
         'console_scripts': ['ssstatic = ssstatic:main']
     },
     install_requires=['boto>=2.8'],
