@@ -62,8 +62,7 @@ def stdout(bucket_name, target_root):
         )
 
 
-def main(media_root, bucket_root, cachebuster=False, stdout=stdout):
-
+def ssstatic(media_root, bucket_root, cachebuster=False, stdout=stdout):
     if not os.path.exists(media_root):
         sys.exit(u"Error: Sync path does not exist")
 
@@ -141,7 +140,7 @@ def main(media_root, bucket_root, cachebuster=False, stdout=stdout):
                     contents, headers, replace=True, policy='public-read')
 
 
-if __name__ == '__main__':
+def main():
     try:
         parser = argparse.ArgumentParser(description='Upload folder to S3.')
         parser.add_argument(
@@ -152,6 +151,9 @@ if __name__ == '__main__':
         parser.add_argument('source', help="Path to source directory.")
         parser.add_argument('destination', help="Bucket name and path. Ex: s3.python.org/static")
         args = parser.parse_args()
-        main(args.source, args.destination, cachebuster=args.cachebuster)
+        ssstatic(args.source, args.destination, cachebuster=args.cachebuster)
     except KeyboardInterrupt:
         sys.exit(u"Early exit")
+
+if __name__ == '__main__':
+    main()

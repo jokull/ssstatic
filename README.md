@@ -25,7 +25,7 @@ Usage
 
 Dry run:
 
-    $ DRYRUN=true static/ my-bucket/static/
+    $ DRYRUN=true ssstatic static/ my-bucket/static/
 
 Upload:
 
