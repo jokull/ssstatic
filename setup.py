@@ -8,7 +8,7 @@ from setuptools import setup
 
 
 setup(
-    version='0.6',
+    version='0.7',
     name='ssstatic',
     description='Push a website assets to S3 with or without prefix cache busting.',
     author=u'Jökull Sólberg Auðunsson',

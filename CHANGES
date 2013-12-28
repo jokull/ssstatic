@@ -13,3 +13,8 @@
 ---
 
 + Package as a module so your deployment scripts can use `ssstatic.main`
+
+0.7
+---
+
++ Added a simple no arguments main method.
